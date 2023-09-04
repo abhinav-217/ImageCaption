@@ -67,7 +67,7 @@ def generate(request):
         img = request.FILES['file1']
         fs = FileSystemStorage()
         filename = fs.save('static/file.jpg', img)
-        image = cv2.imread('static/file.jpg')
+        image = cv2.imread(filename)
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         image = cv2.resize(image, (224, 224))
         image = np.reshape(image, (1, 224, 224, 3))
@@ -87,8 +87,7 @@ def generate(request):
 
             if sampled_word != 'endofseq':
                 final = final + ' ' + sampled_word
-
             text_in.append(sampled_word)
             print(final)
-        print("the reuestis :",request.FILES)
-        return render(request,'generate.html')
+        # print("the reuestis :",request.FILES)
+        return render(request,'generate.html',{'file':filename,'result':final})
